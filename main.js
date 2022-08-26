@@ -107,7 +107,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // END SOCIAL MEDIA
 
     // VIDEO
-    const video = await loadVideo("../../assets/videos/sintel/sintel.mp4");
+    const video = await loadVideo("./assets/sintel.mp4");
     video.muted = true;
     const videoTexture = new THREE.VideoTexture(video);
 
