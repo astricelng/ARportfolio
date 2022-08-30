@@ -1,0 +1,206 @@
+{
+  "accessors": [
+    {
+      "bufferView": 1,
+      "componentType": 5126,
+      "count": 65532,
+      "max": [
+        86.45476531982422,
+        35.602622985839844,
+        145.85157775878906
+      ],
+      "min": [
+        -79.5020980834961,
+        -42.67922592163086,
+        -48.183753967285156
+      ],
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 1,
+      "byteOffset": 786384,
+      "componentType": 5126,
+      "count": 65532,
+      "max": [
+        0.9999640583992004,
+        0.9999855756759644,
+        0.9999416470527649
+      ],
+      "min": [
+        -0.9999533295631409,
+        -0.999991238117218,
+        -0.9999979138374329
+      ],
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 0,
+      "componentType": 5125,
+      "count": 348096,
+      "type": "SCALAR"
+    },
+    {
+      "bufferView": 1,
+      "byteOffset": 1572768,
+      "componentType": 5126,
+      "count": 50295,
+      "max": [
+        85.21508026123047,
+        33.92921447753906,
+        44.03154754638672
+      ],
+      "min": [
+        -77.86246490478516,
+        -42.6518669128418,
+        -48.18141174316406
+      ],
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 1,
+      "byteOffset": 2176308,
+      "componentType": 5126,
+      "count": 50295,
+      "max": [
+        0.9999290108680725,
+        0.9999593496322632,
+        0.9996675848960876
+      ],
+      "min": [
+        -0.9998364448547363,
+        -0.9999950528144836,
+        -0.9999992847442627
+      ],
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 0,
+      "byteOffset": 1392384,
+      "componentType": 5125,
+      "count": 242022,
+      "type": "SCALAR"
+    }
+  ],
+  "asset": {
+    "extras": {
+      "author": "TetraVision (https://sketchfab.com/TetraVision)",
+      "license": "CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)",
+      "source": "https://sketchfab.com/3d-models/venetian-mask-1-df7119ee12c64cbe9c82e255c9471919",
+      "title": "Venetian Mask 1"
+    },
+    "generator": "Sketchfab-12.66.0",
+    "version": "2.0"
+  },
+  "bufferViews": [
+    {
+      "buffer": 0,
+      "byteLength": 2360472,
+      "name": "floatBufferViews",
+      "target": 34963
+    },
+    {
+      "buffer": 0,
+      "byteLength": 2779848,
+      "byteOffset": 2360472,
+      "byteStride": 12,
+      "name": "floatBufferViews",
+      "target": 34962
+    }
+  ],
+  "buffers": [
+    {
+      "byteLength": 5140320,
+      "uri": "scene.bin"
+    }
+  ],
+  "materials": [
+    {
+      "doubleSided": true,
+      "name": "Scene_-_Root",
+      "pbrMetallicRoughness": {
+        "metallicFactor": 0.0,
+        "roughnessFactor": 0.6
+      }
+    }
+  ],
+  "meshes": [
+    {
+      "name": "Object_0",
+      "primitives": [
+        {
+          "attributes": {
+            "NORMAL": 1,
+            "POSITION": 0
+          },
+          "indices": 2,
+          "material": 0,
+          "mode": 4
+        }
+      ]
+    },
+    {
+      "name": "Object_1",
+      "primitives": [
+        {
+          "attributes": {
+            "NORMAL": 4,
+            "POSITION": 3
+          },
+          "indices": 5,
+          "material": 0,
+          "mode": 4
+        }
+      ]
+    }
+  ],
+  "nodes": [
+    {
+      "children": [
+        1
+      ],
+      "matrix": [
+        0.009149206802248955,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        3.502836653864307e-18,
+        -0.009149206802248955,
+        0.0,
+        0.0,
+        0.009149206802248955,
+        3.502836653864307e-18,
+        0.0,
+        0.0,
+        1.7749370367472766e-30,
+        -7.993605777301127e-15,
+        1.0
+      ],
+      "name": "Sketchfab_model"
+    },
+    {
+      "children": [
+        2,
+        3
+      ],
+      "name": "Venetian Mask 1.stl.cleaner.materialmerger.gles"
+    },
+    {
+      "mesh": 0,
+      "name": "Object_2"
+    },
+    {
+      "mesh": 1,
+      "name": "Object_3"
+    }
+  ],
+  "scene": 0,
+  "scenes": [
+    {
+      "name": "Sketchfab_Scene",
+      "nodes": [
+        0
+      ]
+    }
+  ]
+}

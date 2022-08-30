@@ -1,0 +1,11 @@
+Model Information:
+* title:	Venetian Mask 1
+* source:	https://sketchfab.com/3d-models/venetian-mask-1-df7119ee12c64cbe9c82e255c9471919
+* author:	TetraVision (https://sketchfab.com/TetraVision)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Venetian Mask 1" (https://sketchfab.com/3d-models/venetian-mask-1-df7119ee12c64cbe9c82e255c9471919) by TetraVision (https://sketchfab.com/TetraVision) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
