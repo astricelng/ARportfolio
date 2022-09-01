@@ -14,6 +14,17 @@ const normalizeModel = (obj, height) => {
   obj.position.set(-center.x, -center.y, -center.z);
 };
 
+// make clone object not sharing materials
+const deepClone = (obj) => {
+  const newObj = obj.clone();
+  newObj.traverse((o) => {
+    if (o.isMesh) {
+      o.material = o.material.clone();
+    }
+  });
+  return newObj;
+};
+
 document.addEventListener("DOMContentLoaded", () => {
   const initialize = async () => {
     const scene = new THREE.Scene();
@@ -60,8 +71,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const itemButtons = document.querySelector("#item-buttons");
     const confirmButtons = document.querySelector("#confirm-buttons");
-    itemButtons.style.display = "block";
-    confirmButtons.style.display = "none";
+    itemButtons.style.display = "none";
+    confirmButtons.style.display = "block";
 
     const select = (selectItem) => {
       /* items.forEach((item) => {
@@ -89,9 +100,9 @@ document.addEventListener("DOMContentLoaded", () => {
     placeButton.addEventListener("click", (e) => {
       e.preventDefault();
       e.stopPropagation();
-      /*const spawnItem = deepClone(selectedItem);
-      setOpacity(spawnItem, 1.0);*/
-      scene.add(selectedItem);
+      const spawnItem = deepClone(selectedItem);
+      //setOpacity(spawnItem, 1.0);
+      scene.add(spawnItem);
       cancelSelect();
     });
     cancelButton.addEventListener("beforexrselect", (e) => {
