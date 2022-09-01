@@ -46,10 +46,10 @@ document.addEventListener("DOMContentLoaded", () => {
     document.body.appendChild(arButton);
 
     const model = await loadGLTF("../../assets/models/coffee-table/scene.gltf");
-    normalizeModel(model.scene, 0.5);
+    normalizeModel(model.scene, 0.3);
     const item = new THREE.Group();
     item.add(model.scene);
-    item.visible = true;
+    item.visible = false;
     //setOpacity(item, 0.5);
     //items.push(item);
     scene.add(item);
@@ -94,16 +94,18 @@ document.addEventListener("DOMContentLoaded", () => {
 
           if (hitTestResults.length > 0) {
             const hit = hitTestResults[0];
-            const hitPose = hit.getPose(referenceSpace).transform.matrix;
+            const hitPose = hit.getPose(referenceSpace);
 
             reticle.visible = true;
-            reticle.matrix.fromArray(hitPose);
+            reticle.matrix.fromArray(hitPose.transform.matrix);
 
+            selectedItem.visible = true;
             selectedItem.position.setFromMatrixPosition(
-              new THREE.Matrix4().fromArray(hitPose)
+              new THREE.Matrix4().fromArray(hitPose.transform.matrix)
             );
           } else {
             reticle.visible = false;
+            selectedItem.visible = false;
           }
         }
 
