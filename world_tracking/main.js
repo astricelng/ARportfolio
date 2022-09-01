@@ -97,7 +97,7 @@ document.addEventListener("DOMContentLoaded", () => {
             const hitPose = hit.getPose(referenceSpace).transform.matrix;
 
             reticle.visible = true;
-            reticle.matrix.fromArray(hitPose.transform.matrix);
+            reticle.matrix.fromArray(hitPose);
 
             selectedItem.position.setFromMatrixPosition(
               new THREE.Matrix4().fromArray(hitPose)
