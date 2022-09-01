@@ -59,7 +59,49 @@ document.addEventListener("DOMContentLoaded", () => {
     let selectedItem = item;
 
     const itemButtons = document.querySelector("#item-buttons");
+    const confirmButtons = document.querySelector("#confirm-buttons");
     itemButtons.style.display = "block";
+    confirmButtons.style.display = "none";
+
+    const select = (selectItem) => {
+      /* items.forEach((item) => {
+        item.visible = item === selectItem;
+      });*/
+      item.visible = true;
+      selectedItem = selectItem;
+      itemButtons.style.display = "none";
+      confirmButtons.style.display = "block";
+    };
+    const cancelSelect = () => {
+      itemButtons.style.display = "block";
+      confirmButtons.style.display = "none";
+      if (selectedItem) {
+        selectedItem.visible = false;
+      }
+      selectedItem = null;
+    };
+
+    const placeButton = document.querySelector("#place");
+    const cancelButton = document.querySelector("#cancel");
+    placeButton.addEventListener("beforexrselect", (e) => {
+      e.preventDefault();
+    });
+    placeButton.addEventListener("click", (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      /*const spawnItem = deepClone(selectedItem);
+      setOpacity(spawnItem, 1.0);*/
+      scene.add(selectedItem);
+      cancelSelect();
+    });
+    cancelButton.addEventListener("beforexrselect", (e) => {
+      e.preventDefault();
+    });
+    cancelButton.addEventListener("click", (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      cancelSelect();
+    });
 
     const controller = renderer.xr.getController(0);
     scene.add(controller);
@@ -88,6 +130,20 @@ document.addEventListener("DOMContentLoaded", () => {
         if (!frame) return;
 
         const referenceSpace = renderer.xr.getReferenceSpace();
+
+        if (touchDown && selectedItem) {
+          const viewerMatrix = new THREE.Matrix4().fromArray(
+            frame.getViewerPose(referenceSpace).transform.inverse.matrix
+          );
+          const newPosition = controller.position.clone();
+          newPosition.applyMatrix4(viewerMatrix); // change to viewer coordinate
+          if (prevTouchPosition) {
+            const deltaX = newPosition.x - prevTouchPosition.x;
+            const deltaZ = newPosition.y - prevTouchPosition.y;
+            selectedItem.rotation.y += deltaX * 30;
+          }
+          prevTouchPosition = newPosition;
+        }
 
         if (selectedItem) {
           const hitTestResults = frame.getHitTestResults(hitTestSource);
