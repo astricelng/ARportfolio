@@ -33,7 +33,7 @@ document.addEventListener("DOMContentLoaded", () => {
     scene.add(controller);
 
     controller.addEventListener("select", () => {
-      const geometry = new THREE.BoxGeometry(0.06, 0.06, 0.06);
+      const geometry = new THREE.BoxGeometry(0.03, 0.06, 0.06);
       const material = new THREE.MeshBasicMaterial({
         color: 0xffffff,
       });
