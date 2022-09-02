@@ -39,7 +39,7 @@ document.addEventListener("DOMContentLoaded", () => {
       });
       const mesh = new THREE.Mesh(geometry, material);
       mesh.position.applyMatrix4(controller.matrixWorld);
-      //mesh.quaternion.setFromRotationMatrix(controller.matrixWorld);
+      mesh.quaternion.setFromRotationMatrix(controller.matrixWorld);
       scene.add(mesh);
     });
   };
