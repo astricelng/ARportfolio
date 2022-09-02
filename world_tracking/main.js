@@ -1,28 +1,33 @@
-import * as THREE from "../libs/three.js-r132/build/three.module.js";
-import { ARButton } from "../libs/three.js-r132/examples/jsm/webxr/ARButton.js";
+import * as THREE from "../../libs/three.js-r132/build/three.module.js";
+import { ARButton } from "../../libs/three.js-r132/examples/jsm/webxr/ARButton.js";
+
+//explicacion del hit-test
+//https://web.dev/ar-hit-test/
 
 document.addEventListener("DOMContentLoaded", () => {
   const initialize = async () => {
     const scene = new THREE.Scene();
-    const camera = new THREE.PerspectiveCamera(
-      70,
-      window.innerWidth / window.innerHeight,
-      0.01,
-      20
-    );
+    const camera = new THREE.PerspectiveCamera();
 
     const light = new THREE.HemisphereLight(0xffffff, 0xbbbbff, 1);
     scene.add(light);
+
+    const reticleGeometry = new THREE.RingGeometry(0.15, 0.2, 32).rotateX(
+      -Math.PI / 2
+    );
+    const reticleMaterial = new THREE.MeshBasicMaterial();
+    const reticle = new THREE.Mesh(reticleGeometry, reticleMaterial);
+    reticle.matrixAutoUpdate = false;
+    reticle.visible = false;
+    scene.add(reticle);
 
     const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
     renderer.setPixelRatio(window.devicePixelRatio);
     renderer.setSize(window.innerWidth, window.innerHeight);
     renderer.xr.enabled = true;
-    renderer.setAnimationLoop(() => {
-      renderer.render(scene, camera);
-    });
 
     const arButton = ARButton.createButton(renderer, {
+      requiredFeatures: ["hit-test"],
       optionalFeatures: ["dom-overlay"],
       domOverlay: { root: document.body },
     });
@@ -31,17 +36,51 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const controller = renderer.xr.getController(0);
     scene.add(controller);
-
     controller.addEventListener("select", () => {
-      const geometry = new THREE.BoxGeometry(0.05, 0.05, 0.05);
+      const geometry = new THREE.BoxGeometry(0.06, 0.06, 0.06);
       const material = new THREE.MeshBasicMaterial({
-        color: 0xffff00,
+        color: 0xffffff * Math.random(),
       });
       const mesh = new THREE.Mesh(geometry, material);
-      mesh.position.applyMatrix4(controller.matrixWorld);
-      mesh.quaternion.setFromRotationMatrix(controller.matrixWorld);
+      mesh.position.setFromMatrixPosition(reticle.matrix);
+      mesh.scale.y = Math.random() * 2 + 1;
       scene.add(mesh);
     });
+
+    renderer.xr.addEventListener("sessionstart", async () => {
+      const session = renderer.xr.getSession();
+
+      // kind of coordinate system, the origin is the current position of the viewer, which keeps changing
+      // viewer is the person or the device
+      const viewerReferenceSpace = await session.requestReferenceSpace(
+        "viewer"
+      );
+      // care about the current position
+      const hitTestSource = await session.requestHitTestSource({
+        space: viewerReferenceSpace,
+      });
+
+      renderer.setAnimationLoop((timestamp, frame) => {
+        if (!frame) return;
+
+        const hitTestResults = frame.getHitTestResults(hitTestSource);
+
+        if (hitTestResults.length > 0) {
+          const hit = hitTestResults[0];
+          const referenceSpace = renderer.xr.getReferenceSpace();
+          const hitPose = hit.getPose(referenceSpace);
+
+          reticle.visible = true;
+          reticle.matrix.fromArray(hitPose.transform.matrix);
+        } else {
+          reticle.visible = false;
+        }
+
+        renderer.render(scene, camera);
+      });
+    });
+
+    renderer.xr.addEventListener("sessionend", async () => {});
   };
 
   initialize();
