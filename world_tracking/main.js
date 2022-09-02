@@ -33,13 +33,13 @@ document.addEventListener("DOMContentLoaded", () => {
     scene.add(controller);
 
     controller.addEventListener("select", () => {
-      const geometry = new THREE.BoxGeometry(0.06, 0.06, 0.06);
+      const geometry = new THREE.BoxGeometry(0.05, 0.05, 0.05);
       const material = new THREE.MeshBasicMaterial({
         color: 0xffffff * Math.random(),
       });
       const mesh = new THREE.Mesh(geometry, material);
       mesh.position.applyMatrix4(controller.matrixWorld);
-      mesh.quaternion.setFromRotationMatrix(controller.matrixWorld);
+      //mesh.quaternion.setFromRotationMatrix(controller.matrixWorld);
       scene.add(mesh);
     });
   };
