@@ -35,7 +35,7 @@ document.addEventListener("DOMContentLoaded", () => {
     controller.addEventListener("select", () => {
       const geometry = new THREE.BoxGeometry(0.06, 0.06, 0.06);
       const material = new THREE.MeshBasicMaterial({
-        color: 0xffffff * Math.random(),
+        color: 0xffffff,
       });
       const mesh = new THREE.Mesh(geometry, material);
       mesh.position.applyMatrix4(controller.matrixWorld);
