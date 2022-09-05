@@ -43,7 +43,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const select = (selectItem) => {
       selectedItem = selectItem;
-      alert(selectedItem);
+      alert("1 ", selectedItem);
     };
 
     select(items[0]);
@@ -55,7 +55,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
     controller.addEventListener("selectend", (e) => {
       touchDown = false;
-      prevTouchPosition = null;
+      //prevTouchPosition = null;
     });
     /*controller.addEventListener("select", () => {
       const geometry = new THREE.BoxGeometry(0.06, 0.06, 0.06);
