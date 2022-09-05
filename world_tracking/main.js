@@ -10,17 +10,21 @@ document.addEventListener("DOMContentLoaded", () => {
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera();
 
+    let selectedItem = null;
+    let touchDown = false;
+    let prevTouchPosition = null;
+
     const light = new THREE.HemisphereLight(0xffffff, 0xbbbbff, 1);
     scene.add(light);
 
-    const reticleGeometry = new THREE.RingGeometry(0.15, 0.2, 32).rotateX(
+    /*const reticleGeometry = new THREE.RingGeometry(0.15, 0.2, 32).rotateX(
       -Math.PI / 2
     );
     const reticleMaterial = new THREE.MeshBasicMaterial();
     const reticle = new THREE.Mesh(reticleGeometry, reticleMaterial);
     reticle.matrixAutoUpdate = false;
     reticle.visible = false;
-    scene.add(reticle);
+    scene.add(reticle);*/
 
     const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
     renderer.setPixelRatio(window.devicePixelRatio);
@@ -37,8 +41,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const items = await addItems(scene);
 
-    let selectedItem = null;
-
     const select = (selectItem) => {
       selectedItem = selectItem;
       alert(selectedItem);
@@ -46,9 +48,16 @@ document.addEventListener("DOMContentLoaded", () => {
 
     select(items[0]);
 
-    /*const controller = renderer.xr.getController(0);
+    const controller = renderer.xr.getController(0);
     scene.add(controller);
-    controller.addEventListener("select", () => {
+    controller.addEventListener("selectstart", (e) => {
+      touchDown = true;
+    });
+    controller.addEventListener("selectend", (e) => {
+      touchDown = false;
+      prevTouchPosition = null;
+    });
+    /*controller.addEventListener("select", () => {
       const geometry = new THREE.BoxGeometry(0.06, 0.06, 0.06);
       const material = new THREE.MeshBasicMaterial({
         color: 0xffffff * Math.random(),
@@ -77,6 +86,20 @@ document.addEventListener("DOMContentLoaded", () => {
 
         const referenceSpace = renderer.xr.getReferenceSpace();
 
+        if (touchDown && selectedItem) {
+          const viewerMatrix = new THREE.Matrix4().fromArray(
+            frame.getViewerPose(referenceSpace).transform.inverse.matrix
+          );
+          const newPosition = controller.position.clone();
+          newPosition.applyMatrix4(viewerMatrix); // change to viewer coordinate
+          if (prevTouchPosition) {
+            const deltaX = newPosition.x - prevTouchPosition.x;
+            const deltaZ = newPosition.y - prevTouchPosition.y;
+            selectedItem.rotation.y += deltaX * 30;
+          }
+          prevTouchPosition = newPosition;
+        }
+
         if (selectedItem) {
           const hitTestResults = frame.getHitTestResults(hitTestSource);
 
@@ -84,15 +107,15 @@ document.addEventListener("DOMContentLoaded", () => {
             const hit = hitTestResults[0];
             const hitPose = hit.getPose(referenceSpace);
 
-            reticle.visible = true;
-            reticle.matrix.fromArray(hitPose.transform.matrix);
+            /*reticle.visible = true;
+            reticle.matrix.fromArray(hitPose.transform.matrix);*/
 
             selectedItem.visible = true;
             selectedItem.position.setFromMatrixPosition(
               new THREE.Matrix4().fromArray(hitPose.transform.matrix)
             );
           } else {
-            reticle.visible = false;
+            //reticle.visible = false;
             selectedItem.visible = false;
           }
         }
@@ -121,7 +144,7 @@ const normalizeModel = (obj, height) => {
 
 const addItems = async (scene) => {
   const itemNames = ["coffee-table", "chair", "cushion"];
-  const itemHeights = [0.5, 0.7, 0.05];
+  const itemHeights = [0.3, 0.7, 0.05];
   const items = [];
   for (let i = 0; i < itemNames.length; i++) {
     const model = await loadGLTF(
