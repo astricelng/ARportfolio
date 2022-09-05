@@ -233,6 +233,6 @@ const addItems = async (itemNames, scene) => {
     items.push(item);
     scene.add(item);
   }
-  alert("ITEMS");
+  alert("ITEMS1");
   return items;
 };
