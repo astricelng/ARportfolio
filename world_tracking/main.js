@@ -162,7 +162,6 @@ document.addEventListener("DOMContentLoaded", () => {
             selectedItem.visible = false;
           }
         } else {
-          alert("not");
           if (hitTestResults.length) {
             const hit = hitTestResults[0];
             const referenceSpace = renderer.xr.getReferenceSpace(); // ARButton requested 'local' reference space
