@@ -41,6 +41,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const select = (selectItem) => {
       selectedItem = selectItem;
+      alert(selectedItem);
     };
 
     select(items[0]);
