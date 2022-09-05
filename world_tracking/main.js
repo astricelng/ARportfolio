@@ -21,15 +21,6 @@ document.addEventListener("DOMContentLoaded", () => {
     const light = new THREE.HemisphereLight(0xffffff, 0xbbbbff, 1);
     scene.add(light);
 
-    const reticleGeometry = new THREE.RingGeometry(0.15, 0.2, 32).rotateX(
-      -Math.PI / 2
-    );
-    const reticleMaterial = new THREE.MeshBasicMaterial();
-    const reticle = new THREE.Mesh(reticleGeometry, reticleMaterial);
-    reticle.matrixAutoUpdate = false;
-    reticle.visible = false;
-    scene.add(reticle);
-
     const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
     renderer.setPixelRatio(window.devicePixelRatio);
     renderer.setSize(window.innerWidth, window.innerHeight);
@@ -45,7 +36,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const items = await addItems(itemNames, scene);
 
-    const select = (selectItem) => {
+    const select = (selectItem, itemId) => {
       if (selectedItem === selectItem) return;
 
       for (var i = 0, m = items.length; i < m; i++) {
@@ -53,13 +44,18 @@ document.addEventListener("DOMContentLoaded", () => {
       }
 
       selectedItem = selectItem;
+      uncheckButtons(itemButton);
+      document.querySelector("#" + itemId).classList.add("select");
     };
 
     const cancelSelect = () => {
       if (selectedItem) selectedItem.visible = false;
 
       selectedItem = null;
+      uncheckButtons(itemButton);
     };
+
+    select(items[0], "coffee-table");
 
     // LISTENER INTERFACE BUTTONS
     itemButton.forEach((button) => {
@@ -68,7 +64,7 @@ document.addEventListener("DOMContentLoaded", () => {
         e.stopPropagation();
 
         let indexItem = itemNames.indexOf(button.id);
-        if (indexItem > -1) select(items[indexItem]);
+        if (indexItem > -1) select(items[indexItem], button.id);
       });
     });
 
@@ -147,9 +143,9 @@ document.addEventListener("DOMContentLoaded", () => {
           prevTouchPosition = newPosition;
         }
 
-        const hitTestResults = frame.getHitTestResults(hitTestSource);
         // Para pintar el elemento seleccionado
         if (selectedItem) {
+          const hitTestResults = frame.getHitTestResults(hitTestSource);
           if (hitTestResults.length > 0) {
             const hit = hitTestResults[0];
             const hitPose = hit.getPose(referenceSpace);
@@ -160,17 +156,6 @@ document.addEventListener("DOMContentLoaded", () => {
             );
           } else {
             selectedItem.visible = false;
-          }
-        } else {
-          if (hitTestResults.length) {
-            const hit = hitTestResults[0];
-            const referenceSpace = renderer.xr.getReferenceSpace(); // ARButton requested 'local' reference space
-            const hitPose = hit.getPose(referenceSpace);
-
-            reticle.visible = true;
-            reticle.matrix.fromArray(hitPose.transform.matrix);
-          } else {
-            reticle.visible = false;
           }
         }
 
@@ -235,4 +220,10 @@ const addItems = async (itemNames, scene) => {
   }
   alert("ITEMS1");
   return items;
+};
+
+const uncheckButtons = (itemButton) => {
+  itemButton.forEach((button) => {
+    button.classList.remove("select");
+  });
 };
