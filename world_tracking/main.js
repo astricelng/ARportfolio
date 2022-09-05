@@ -1,3 +1,4 @@
+import { loadGLTF } from "../../libs/loader.js";
 import * as THREE from "../../libs/three.js-r132/build/three.module.js";
 import { ARButton } from "../../libs/three.js-r132/examples/jsm/webxr/ARButton.js";
 
@@ -34,7 +35,17 @@ document.addEventListener("DOMContentLoaded", () => {
     document.body.appendChild(renderer.domElement);
     document.body.appendChild(arButton);
 
-    const controller = renderer.xr.getController(0);
+    const items = await addItems(scene);
+
+    let selectedItem = null;
+
+    const select = (selectItem) => {
+      selectedItem = selectItem;
+    };
+
+    select(items[0]);
+
+    /*const controller = renderer.xr.getController(0);
     scene.add(controller);
     controller.addEventListener("select", () => {
       const geometry = new THREE.BoxGeometry(0.06, 0.06, 0.06);
@@ -45,7 +56,7 @@ document.addEventListener("DOMContentLoaded", () => {
       mesh.position.setFromMatrixPosition(reticle.matrix);
       mesh.scale.y = Math.random() * 2 + 1;
       scene.add(mesh);
-    });
+    });*/
 
     renderer.xr.addEventListener("sessionstart", async () => {
       const session = renderer.xr.getSession();
@@ -63,17 +74,26 @@ document.addEventListener("DOMContentLoaded", () => {
       renderer.setAnimationLoop((timestamp, frame) => {
         if (!frame) return;
 
-        const hitTestResults = frame.getHitTestResults(hitTestSource);
+        const referenceSpace = renderer.xr.getReferenceSpace();
 
-        if (hitTestResults.length > 0) {
-          const hit = hitTestResults[0];
-          const referenceSpace = renderer.xr.getReferenceSpace();
-          const hitPose = hit.getPose(referenceSpace);
+        if (selectedItem) {
+          const hitTestResults = frame.getHitTestResults(hitTestSource);
 
-          reticle.visible = true;
-          reticle.matrix.fromArray(hitPose.transform.matrix);
-        } else {
-          reticle.visible = false;
+          if (hitTestResults.length > 0) {
+            const hit = hitTestResults[0];
+            const hitPose = hit.getPose(referenceSpace);
+
+            reticle.visible = true;
+            reticle.matrix.fromArray(hitPose.transform.matrix);
+
+            selectedItem.visible = true;
+            selectedItem.position.setFromMatrixPosition(
+              new THREE.Matrix4().fromArray(hitPose.transform.matrix)
+            );
+          } else {
+            reticle.visible = false;
+            selectedItem.visible = false;
+          }
         }
 
         renderer.render(scene, camera);
@@ -85,3 +105,35 @@ document.addEventListener("DOMContentLoaded", () => {
 
   initialize();
 });
+
+const normalizeModel = (obj, height) => {
+  // scale it according to height
+  const bbox = new THREE.Box3().setFromObject(obj);
+  const size = bbox.getSize(new THREE.Vector3());
+  obj.scale.multiplyScalar(height / size.y);
+
+  // reposition to center
+  const bbox2 = new THREE.Box3().setFromObject(obj);
+  const center = bbox2.getCenter(new THREE.Vector3());
+  obj.position.set(-center.x, -center.y, -center.z);
+};
+
+const addItems = async (scene) => {
+  const itemNames = ["coffee-table", "chair", "cushion"];
+  const itemHeights = [0.5, 0.7, 0.05];
+  const items = [];
+  for (let i = 0; i < itemNames.length; i++) {
+    const model = await loadGLTF(
+      "../assets/models/" + itemNames[i] + "/scene.gltf"
+    );
+    normalizeModel(model.scene, itemHeights[i]);
+    const item = new THREE.Group();
+    item.add(model.scene);
+    item.visible = false;
+    //setOpacity(item, 0.5);
+    items.push(item);
+    scene.add(item);
+  }
+
+  return items;
+};
