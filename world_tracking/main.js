@@ -21,6 +21,15 @@ document.addEventListener("DOMContentLoaded", () => {
     const light = new THREE.HemisphereLight(0xffffff, 0xbbbbff, 1);
     scene.add(light);
 
+    const reticleGeometry = new THREE.RingGeometry(0.15, 0.2, 32).rotateX(
+      -Math.PI / 2
+    );
+    const reticleMaterial = new THREE.MeshBasicMaterial();
+    const reticle = new THREE.Mesh(reticleGeometry, reticleMaterial);
+    reticle.matrixAutoUpdate = false;
+    reticle.visible = false;
+    scene.add(reticle);
+
     const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
     renderer.setPixelRatio(window.devicePixelRatio);
     renderer.setSize(window.innerWidth, window.innerHeight);
@@ -138,10 +147,9 @@ document.addEventListener("DOMContentLoaded", () => {
           prevTouchPosition = newPosition;
         }
 
+        const hitTestResults = frame.getHitTestResults(hitTestSource);
         // Para pintar el elemento seleccionado
         if (selectedItem) {
-          const hitTestResults = frame.getHitTestResults(hitTestSource);
-
           if (hitTestResults.length > 0) {
             const hit = hitTestResults[0];
             const hitPose = hit.getPose(referenceSpace);
@@ -152,6 +160,18 @@ document.addEventListener("DOMContentLoaded", () => {
             );
           } else {
             selectedItem.visible = false;
+          }
+        } else {
+          alert("not");
+          if (hitTestResults.length) {
+            const hit = hitTestResults[0];
+            const referenceSpace = renderer.xr.getReferenceSpace(); // ARButton requested 'local' reference space
+            const hitPose = hit.getPose(referenceSpace);
+
+            reticle.visible = true;
+            reticle.matrix.fromArray(hitPose.transform.matrix);
+          } else {
+            reticle.visible = false;
           }
         }
 
