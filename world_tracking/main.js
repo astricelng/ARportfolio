@@ -45,6 +45,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
       selectedItem = selectItem;
       uncheckButtons(itemButton);
+      console.log(itemId);
       document.querySelector("#" + itemId).classList.add("select");
     };
 
@@ -55,7 +56,7 @@ document.addEventListener("DOMContentLoaded", () => {
       uncheckButtons(itemButton);
     };
 
-    select(items[0], "coffee-table");
+    select(items[0], "table");
 
     // LISTENER INTERFACE BUTTONS
     itemButton.forEach((button) => {
@@ -204,7 +205,7 @@ const setOpacity = (obj, opacity) => {
 };
 
 const addItems = async (itemNames, scene) => {
-  const itemHeights = [0.3, 0.7, 0.05];
+  const itemHeights = [0.3, 0.7, 0.9, 0.5, 0.5];
   const items = [];
   for (let i = 0; i < itemNames.length; i++) {
     const model = await loadGLTF(
