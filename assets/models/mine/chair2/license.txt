@@ -1,0 +1,11 @@
+Model Information:
+* title:	Rounded Chair
+* source:	https://sketchfab.com/3d-models/rounded-chair-6a9ed9947c0e499d938563de4920fbf0
+* author:	Pascal T. Monette (https://sketchfab.com/baltazo)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Rounded Chair" (https://sketchfab.com/3d-models/rounded-chair-6a9ed9947c0e499d938563de4920fbf0) by Pascal T. Monette (https://sketchfab.com/baltazo) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)

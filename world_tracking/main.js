@@ -16,7 +16,7 @@ document.addEventListener("DOMContentLoaded", () => {
     let placeButton = document.querySelector("#confirm-buttons #place");
     let cancelButton = document.querySelector("#confirm-buttons #cancel");
     let itemButton = document.querySelectorAll(".item-button");
-    const itemNames = ["coffee-table", "chair", "cushion"];
+    const itemNames = ["table", "chair", "chair2", "picture", "picture2"];
 
     const light = new THREE.HemisphereLight(0xffffff, 0xbbbbff, 1);
     scene.add(light);
@@ -208,7 +208,7 @@ const addItems = async (itemNames, scene) => {
   const items = [];
   for (let i = 0; i < itemNames.length; i++) {
     const model = await loadGLTF(
-      "../assets/models/" + itemNames[i] + "/scene.gltf"
+      "../assets/models/mine/" + itemNames[i] + "/scene.gltf"
     );
     normalizeModel(model.scene, itemHeights[i]);
     const item = new THREE.Group();

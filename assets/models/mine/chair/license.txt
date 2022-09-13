@@ -1,0 +1,11 @@
+Model Information:
+* title:	Vitra Eames Plastic Chair
+* source:	https://sketchfab.com/3d-models/vitra-eames-plastic-chair-0a45955e2328459d95f403cb00c08b3a
+* author:	furnny (https://sketchfab.com/furnny)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Vitra Eames Plastic Chair" (https://sketchfab.com/3d-models/vitra-eames-plastic-chair-0a45955e2328459d95f403cb00c08b3a) by furnny (https://sketchfab.com/furnny) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
