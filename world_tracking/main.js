@@ -220,7 +220,7 @@ const addItems = async (itemNames, scene, arButton) => {
   }
 
   addArButton(arButton);
-  alert("ITEMS1");
+  //alert("ITEMS1");
   return items;
 };
 
@@ -232,5 +232,6 @@ const uncheckButtons = (itemButton) => {
 
 const addArButton = (button) => {
   document.querySelector("#loading").style.display = "none";
+  document.querySelector("#confirm-buttons").style.display = "flex";
   document.body.appendChild(button);
 };
