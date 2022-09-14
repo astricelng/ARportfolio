@@ -32,9 +32,9 @@ document.addEventListener("DOMContentLoaded", () => {
       domOverlay: { root: document.body },
     });
     document.body.appendChild(renderer.domElement);
-    document.body.appendChild(arButton);
+    //document.body.appendChild(arButton);
 
-    const items = await addItems(itemNames, scene);
+    const items = await addItems(itemNames, scene, arButton);
 
     const select = (selectItem, itemId) => {
       if (selectedItem === selectItem) return;
@@ -45,7 +45,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
       selectedItem = selectItem;
       uncheckButtons(itemButton);
-      console.log(itemId);
       document.querySelector("#" + itemId).classList.add("select");
     };
 
@@ -204,7 +203,7 @@ const setOpacity = (obj, opacity) => {
   }
 };
 
-const addItems = async (itemNames, scene) => {
+const addItems = async (itemNames, scene, arButton) => {
   const itemHeights = [0.3, 0.7, 0.9, 1];
   const items = [];
   for (let i = 0; i < itemNames.length; i++) {
@@ -219,6 +218,8 @@ const addItems = async (itemNames, scene) => {
     items.push(item);
     scene.add(item);
   }
+
+  addArButton(arButton);
   alert("ITEMS1");
   return items;
 };
@@ -227,4 +228,9 @@ const uncheckButtons = (itemButton) => {
   itemButton.forEach((button) => {
     button.classList.remove("select");
   });
+};
+
+const addArButton = (button) => {
+  document.querySelector("#loading").style.display = "none";
+  document.body.appendChild(button);
 };
