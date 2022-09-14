@@ -16,7 +16,7 @@ document.addEventListener("DOMContentLoaded", () => {
     let placeButton = document.querySelector("#confirm-buttons #place");
     let cancelButton = document.querySelector("#confirm-buttons #cancel");
     let itemButton = document.querySelectorAll(".item-button");
-    const itemNames = ["table", "chair", "chair2", "picture", "picture2"];
+    const itemNames = ["table", "chair", "chair2", "picture2"];
 
     const light = new THREE.HemisphereLight(0xffffff, 0xbbbbff, 1);
     scene.add(light);
@@ -205,7 +205,7 @@ const setOpacity = (obj, opacity) => {
 };
 
 const addItems = async (itemNames, scene) => {
-  const itemHeights = [0.3, 0.7, 0.9, 0.5, 0.5];
+  const itemHeights = [0.3, 0.7, 0.9, 1];
   const items = [];
   for (let i = 0; i < itemNames.length; i++) {
     const model = await loadGLTF(
